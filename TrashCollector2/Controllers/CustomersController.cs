@@ -20,7 +20,7 @@ namespace TrashCollector2.Controllers
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
         {
-            Customers customers = db.Customers.Include(x=>x.PickupDate).SingleOrDefault(y=>y.Id == id);
+            Customers customers = db.Customers.SingleOrDefault(y=>y.Id == id);
             if (customers == null)
             {
                 customers = GetCustomerFromUserId();
@@ -34,10 +34,7 @@ namespace TrashCollector2.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
-            Customers NewCustomer = new Customers()
-            {
-                Week = db.Week.ToList()
-            };
+            Customers NewCustomer = new Customers();
             return View(NewCustomer);
         }
 
@@ -60,7 +57,7 @@ namespace TrashCollector2.Controllers
         // GET: Customers/Edit/5
         public ActionResult Edit(int? id)
         {
-            Customers customers = db.Customers.Include(x => x.PickupDate).SingleOrDefault(y => y.Id == id);
+            Customers customers = db.Customers.SingleOrDefault(y => y.Id == id);
             if (customers == null)
             {
                 return HttpNotFound();
@@ -86,7 +83,7 @@ namespace TrashCollector2.Controllers
         // GET: Customers/Delete/5
         public ActionResult Delete(int? id)
         {
-            Customers customers = db.Customers.Include(y => y.PickupDate).SingleOrDefault(x => x.Id == id);
+            Customers customers = db.Customers.SingleOrDefault(x => x.Id == id);
             if (customers == null)
             {
                 customers = GetCustomerFromUserId();
@@ -97,24 +94,102 @@ namespace TrashCollector2.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult NewPickup()
+        {
+            var customer = GetCustomerFromUserId();
+            Pickup NewPickup = new Pickup()
+            {
+                CustomerId = customer.Id,
+                Week = db.Week.ToList()
+            };
+
+            return View(NewPickup);
+        }
+
+        [HttpPost]
+        public ActionResult NewPickup(Pickup NewPickup)
+        {
+            if (ModelState.IsValid)
+            {
+                NewPickup.DayId = NewPickup.PickupDate.Id;
+                db.Pickups.Add(NewPickup);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction("PickupProgress");
+        }
+
         public ActionResult PickupProgress()
         {
             var customer = GetCustomerFromUserId();
+            var CustomerPickups = db.Pickups.Include(y => y.PickupDate).Where(x => x.CustomerId == customer.Id).ToList();
 
-            return View(customer);
+            return View(CustomerPickups);
         }
+
+        public ActionResult ChangeStatus(int id)
+        {
+            var SelectedPickup = db.Pickups.Find(id);
+
+            CheckStatus(SelectedPickup);
+
+            return RedirectToAction("PickupProgress");
+        }
+
+        public ActionResult DropPickup(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var SelectedPickup = db.Pickups.SingleOrDefault(x => x.Id == id);
+
+            if(SelectedPickup == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.Pickups.Remove(SelectedPickup);
+            db.SaveChanges();
+
+            return RedirectToAction("PickupProgress");
+        }
+
 
         protected Customers GetCustomerFromUserId()
         {
             string UserId = User.Identity.GetUserId();
-            var customer = db.Customers.Include(x => x.PickupDate).SingleOrDefault(y => y.Userid == UserId);
+            var customer = db.Customers.SingleOrDefault(y => y.Userid == UserId);
 
             return customer;
         }
 
         protected void CalculateCustomerPayment(Customers customer)
         {
-            customer.MonthlyPayment = (4 * customer.PickupDate.Payment);
+            var Pickups = db.Pickups.Where(x => x.CustomerId == customer.Id).ToList();
+            float Payment = 0;
+
+            foreach(Pickup collection in Pickups)
+            {
+                Payment += (4 * collection.PickupDate.Payment);
+            }
+
+            customer.MonthlyPayment = Payment;
+            db.SaveChanges();
+        }
+
+        protected void CheckStatus(Pickup SelectedPickup)
+        {
+            if (SelectedPickup.ActiveStatus == true)
+            {
+                SelectedPickup.ActiveStatus = false;
+            }
+            else
+            {
+                SelectedPickup.ActiveStatus = true;
+            }
             db.SaveChanges();
         }
 

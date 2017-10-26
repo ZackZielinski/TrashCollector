@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<TrashCollector2.Models.Pickup>
-@using TrashCollector2.CustomHelpers
 
 @{
-    ViewBag.Title = "Pickup Status";
+    ViewBag.Title = "Daily Pickups";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -10,7 +9,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.PickupDate.DayName)
+            @Html.DisplayNameFor(model => model.Customer.FirstName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Location)
@@ -27,7 +26,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.PickupDate.DayName)
+            @Html.DisplayFor(modelItem => item.Customer.FirstName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Location)
@@ -36,11 +35,10 @@
             @Html.DisplayFor(modelItem => item.ZipCode)
         </td>
         <td>
-            @Html.PickupStatus(item.ActiveStatus)
+            @Html.DisplayFor(modelItem => item.ActiveStatus)
         </td>
         <td>
-            @Html.ActionLink("Change Status", "ChangeStatus", "Customers", new { id = item.Id }, null) |
-            @Html.ActionLink("Delete", "DropPickup", "Customers", new { id=item.Id }, null)
+            @Html.ActionLink("View Routes", "MapView", new { zipcode=item.ZipCode })
         </td>
     </tr>
 }

@@ -35,5 +35,8 @@ namespace TrashCollector2.Models
         public DbSet<Employees> Employees { get; set; }
 
         public DbSet<Days> Week { get; set; }
+
+        public DbSet<Pickup> Pickups { get; set; }
+
     }
 }

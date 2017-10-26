@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TrashCollector2.Models;
 
@@ -35,18 +33,27 @@ namespace TrashCollector2.Controllers
             return View(employees);
         }
 
+        public ActionResult DailyPickups()
+        {
+            var Pickups = db.Pickups.Include(x=>x.Customer).Include(y => y.PickupDate).Where(z => z.PickupDate.DayName == DateTime.Today.ToString());
+
+            return View(Pickups);
+        }
+
         // GET: Employees/Create
         public ActionResult Create()
         {
-            return View();
+            Employees NewEmployee = new Employees()
+            {
+                Userid = User.Identity.GetUserId()
+            };
+            return View(NewEmployee);
         }
 
         // POST: Employees/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,AssignedZipCode")] Employees employees)
+        public ActionResult Create(Employees employees)
         {
             if (ModelState.IsValid)
             {
@@ -74,11 +81,9 @@ namespace TrashCollector2.Controllers
         }
 
         // POST: Employees/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,AssignedZipCode")] Employees employees)
+        public ActionResult Edit(Employees employees)
         {
             if (ModelState.IsValid)
             {
@@ -101,18 +106,17 @@ namespace TrashCollector2.Controllers
             {
                 return HttpNotFound();
             }
+
+            db.Employees.Remove(employees);
+
             return View(employees);
         }
 
-        // POST: Employees/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult MapView(string zipcode)
         {
-            Employees employees = db.Employees.Find(id);
-            db.Employees.Remove(employees);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            var AvailablePickups = db.Pickups.Include(y => y.PickupDate).Where(z => z.ZipCode == zipcode && z.PickupDate.DayName == DateTime.Today.ToString()).ToList();
+
+            return View(AvailablePickups);
         }
 
         protected override void Dispose(bool disposing)
