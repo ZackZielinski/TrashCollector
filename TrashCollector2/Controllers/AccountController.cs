@@ -17,9 +17,11 @@ namespace TrashCollector2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext context;
 
         public AccountController()
         {
+            context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -57,6 +59,7 @@ namespace TrashCollector2.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -79,7 +82,7 @@ namespace TrashCollector2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToLocal(model.UserRole, returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -139,6 +142,7 @@ namespace TrashCollector2.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
             return View();
         }
 
@@ -156,14 +160,25 @@ namespace TrashCollector2.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    if (model.UserRole == "Customer")
+                    {
+                        return RedirectToAction("Create", "Customers");
+                    }
+
+                    if (model.UserRole == "Employees")
+                    {
+                        return RedirectToAction("Create", "Employees");
+                    }
+
                     return RedirectToAction("Index", "Home");
+
                 }
                 AddErrors(result);
             }
@@ -448,6 +463,25 @@ namespace TrashCollector2.Controllers
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        private ActionResult RedirectToLocal(string UserRole, string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            if (UserRole == "Customer")
+            {
+                return RedirectToAction("Index", "Customers");
+            }
+
+            if (UserRole == "Employee")
+            {
+                return RedirectToAction("Index", "Employees");
             }
             return RedirectToAction("Index", "Home");
         }
