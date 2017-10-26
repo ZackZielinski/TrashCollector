@@ -1,7 +1,8 @@
 ﻿@model TrashCollector2.Models.Customers
+@using TrashCollector2.CustomHelpers
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Pickup Status";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -10,12 +11,14 @@
     <h4>@Model.FirstName @Model.LastName</h4>
     <hr />
     <dl class="dl-horizontal">
+        @if (!Model.OnVacation)
+        {
         <dt>
-            @Html.DisplayNameFor(model => model.OnVacation)
+            @Html.DisplayNameFor(model => model.IsTrashedPickedUp)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OnVacation)
+            @Html.PickupStatus(Model.IsTrashedPickedUp)
         </dd>
 
         <dt>
@@ -33,9 +36,19 @@
         <dd>
             @Html.DisplayFor(model => model.ZipCode)
         </dd>
+        }
+        else
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.OnVacation)
+            </dt>
+            <dd>
+                @Html.VacationStatus(Model.OnVacation)
+            </dd>
+        }
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Return", "Index", "Home")
 </p>

@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.AspNet.Identity;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -19,15 +20,14 @@ namespace TrashCollector2.Controllers
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customers customers = db.Customers.Find(id);
+            Customers customers = db.Customers.Include(x=>x.PickupDate).SingleOrDefault(y=>y.Id == id);
             if (customers == null)
             {
-                return HttpNotFound();
+                customers = GetCustomerFromUserId();
             }
+
+            CalculateCustomerPayment(customers);
+
             return View(customers);
         }
 
@@ -48,9 +48,10 @@ namespace TrashCollector2.Controllers
         {
             if (ModelState.IsValid)
             {
+                customers.Userid = User.Identity.GetUserId();
                 db.Customers.Add(customers);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(customers);
@@ -59,11 +60,7 @@ namespace TrashCollector2.Controllers
         // GET: Customers/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customers customers = db.Customers.Find(id);
+            Customers customers = db.Customers.Include(x => x.PickupDate).SingleOrDefault(y => y.Id == id);
             if (customers == null)
             {
                 return HttpNotFound();
@@ -74,33 +71,51 @@ namespace TrashCollector2.Controllers
         // POST: Customers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Customers customers)
+        public ActionResult Edit(Customers customer)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customers).State = EntityState.Modified;
+                db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                CalculateCustomerPayment(customer);
+                return RedirectToAction("Details");
             }
-            return View(customers);
+            return View(customer);
         }
 
         // GET: Customers/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Customers customers = db.Customers.Find(id);
+            Customers customers = db.Customers.Include(y => y.PickupDate).SingleOrDefault(x => x.Id == id);
             if (customers == null)
             {
-                return HttpNotFound();
+                customers = GetCustomerFromUserId();
             }
 
             db.Customers.Remove(customers);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult PickupProgress()
+        {
+            var customer = GetCustomerFromUserId();
+
+            return View(customer);
+        }
+
+        protected Customers GetCustomerFromUserId()
+        {
+            string UserId = User.Identity.GetUserId();
+            var customer = db.Customers.Include(x => x.PickupDate).SingleOrDefault(y => y.Userid == UserId);
+
+            return customer;
+        }
+
+        protected void CalculateCustomerPayment(Customers customer)
+        {
+            customer.MonthlyPayment = (4 * customer.PickupDate.Payment);
+            db.SaveChanges();
         }
 
         protected override void Dispose(bool disposing)

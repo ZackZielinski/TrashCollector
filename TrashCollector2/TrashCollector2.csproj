@@ -227,6 +227,10 @@
     <Compile Include="Migrations\201710261413108_placed employee foreign keys back.Designer.cs">
       <DependentUpon>201710261413108_placed employee foreign keys back.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710261502375_added a customer payment column.cs" />
+    <Compile Include="Migrations\201710261502375_added a customer payment column.Designer.cs">
+      <DependentUpon>201710261502375_added a customer payment column.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customers.cs" />
@@ -238,6 +242,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-flatly.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -307,6 +312,8 @@
     <Content Include="Views\Employees\Details.cshtml" />
     <Content Include="Views\Employees\Edit.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
+    <Content Include="Views\Shared\_CustomerLayout.cshtml" />
+    <Content Include="Views\Customers\PickupProgress.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -337,6 +344,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710261413108_placed employee foreign keys back.resx">
       <DependentUpon>201710261413108_placed employee foreign keys back.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710261502375_added a customer payment column.resx">
+      <DependentUpon>201710261502375_added a customer payment column.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
