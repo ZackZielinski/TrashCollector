@@ -36,7 +36,7 @@ namespace TrashCollector2.Controllers
 
         public ActionResult DailyPickups()
         {
-            var Pickups = db.Pickups.Include(x=>x.Customer).Include(y => y.PickupDate).Where(z => z.PickupDate.DayName == DateTime.Today.ToString()).ToList();
+            var Pickups = GetDailyPickupList();
 
             return View(Pickups);
         }
@@ -131,11 +131,34 @@ namespace TrashCollector2.Controllers
             return View(AvailablePickups);
         }
 
-        protected List<Pickup> GetDailyPickupList()
+        public ActionResult ChangePickupStatus(int id)
         {
-            return db.Pickups.Include(y => y.PickupDate).Where(z => z.PickupDate.DayName == DateTime.Today.ToString()).ToList();
+            var SelectedPickup = db.Pickups.SingleOrDefault(y => y.Id == id);
+
+            UpdatePickupStatus(SelectedPickup);
+
+            return RedirectToAction("CustomerList", new { zipcode = SelectedPickup.ZipCode });
         }
 
+
+        protected List<Pickup> GetDailyPickupList()
+        {
+            string Today = DateTime.Now.DayOfWeek.ToString();
+            return db.Pickups.Include(x => x.Customer).Include(y => y.PickupDate).Where(z => z.PickupDate.DayName == Today).ToList();
+        }
+
+        protected void UpdatePickupStatus(Pickup pickup)
+        {
+            if (pickup.PickupStatus == true)
+            {
+                pickup.PickupStatus = false;
+            }
+            else
+            {
+                pickup.PickupStatus = true;
+            }
+            db.SaveChanges();
+        }
 
         protected override void Dispose(bool disposing)
         {

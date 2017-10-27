@@ -6,7 +6,7 @@ namespace TrashCollector2.CustomHelpers
     {
         public static MvcHtmlString PickupStatus(this HtmlHelper helper, bool condition)
         {
-            var result = condition ? "Picked Up" : "En Route";
+            var result = condition ? "Pickup Collected" : "Not collected";
             return new MvcHtmlString(result);
         }
         public static MvcHtmlString VacationStatus(this HtmlHelper helper, bool condition)

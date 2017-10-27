@@ -5,7 +5,7 @@
     ViewBag.Title = "Available Pickups";
 }
 
-<h2>
+<h2> Zip Code: 
 @foreach(var item in Model)
 {
     @Html.DisplayFor(modelItem => item.ZipCode)
@@ -20,6 +20,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Customer.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PickupDate.DayName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Location)

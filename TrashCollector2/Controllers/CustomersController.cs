@@ -195,12 +195,15 @@ namespace TrashCollector2.Controllers
         {
             var Pickups = db.Pickups.Include(y => y.PickupDate).Where(x => x.CustomerId == customer.Id).ToList();
             float Payment = 0;
+            int iterations = 0;
 
             foreach(Pickup collection in Pickups)
             {
                 Payment += (4 * collection.PickupDate.Payment);
+                iterations++;
             }
 
+            customer.NumberOfPickups = iterations;
             customer.MonthlyPayment = Payment;
             db.SaveChanges();
         }

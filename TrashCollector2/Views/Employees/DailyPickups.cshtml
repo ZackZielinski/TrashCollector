@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<TrashCollector2.Models.Pickup>
+@using TrashCollector2.CustomHelpers
 
 @{
     ViewBag.Title = "Daily Pickups";
@@ -12,7 +13,10 @@
             @Html.DisplayNameFor(model => model.ZipCode)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ActiveStatus)
+            @Html.DisplayNameFor(model => model.PickupStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VacationStatus)
         </th>
         <th></th>
     </tr>
@@ -23,7 +27,10 @@
             @Html.DisplayFor(modelItem => item.ZipCode)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ActiveStatus)
+            @Html.PickupStatus(item.PickupStatus)
+        </td>
+        <td>
+            @Html.VacationStatus(item.VacationStatus)
         </td>
         <td>
             @Html.ActionLink("View Customers From Zip Code", "CustomerList", new { zipcode=item.ZipCode })

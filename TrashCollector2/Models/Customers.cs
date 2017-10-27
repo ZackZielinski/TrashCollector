@@ -23,5 +23,8 @@ namespace TrashCollector2.Models
         [Display(Name ="Monthly Payment:")]
         public float MonthlyPayment { get; set; }
 
+        [Display(Name ="Number Of Pickups:")]
+        public int NumberOfPickups { get; set; }
+
     }
 }
