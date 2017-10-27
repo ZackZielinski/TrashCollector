@@ -19,7 +19,10 @@
             @Html.DisplayNameFor(model => model.ZipCode)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ActiveStatus)
+            @Html.DisplayNameFor(model => model.PickupStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VacationStatus)
         </th>
         <th></th>
     </tr>
@@ -36,10 +39,14 @@
             @Html.DisplayFor(modelItem => item.ZipCode)
         </td>
         <td>
-            @Html.PickupStatus(item.ActiveStatus)
+            @Html.PickupStatus(item.PickupStatus)
         </td>
         <td>
-            @Html.ActionLink("Change Status", "ChangeStatus", "Customers", new { id = item.Id }, null) |
+            @Html.VacationStatus(item.VacationStatus)
+        </td>
+        <td>
+            @Html.ActionLink("Change Vacation Status", "ChangeVacationStatus", "Customers", new { id = item.Id }, null) |
+            @Html.ActionLink("Edit", "EditPickup", "Customers", new { id = item.Id }, null) |
             @Html.ActionLink("Delete", "DropPickup", "Customers", new { id=item.Id }, null)
         </td>
     </tr>

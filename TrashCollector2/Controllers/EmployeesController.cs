@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -35,7 +36,7 @@ namespace TrashCollector2.Controllers
 
         public ActionResult DailyPickups()
         {
-            var Pickups = db.Pickups.Include(x=>x.Customer).Include(y => y.PickupDate).Where(z => z.PickupDate.DayName == DateTime.Today.ToString());
+            var Pickups = db.Pickups.Include(x=>x.Customer).Include(y => y.PickupDate).Where(z => z.PickupDate.DayName == DateTime.Today.ToString()).ToList();
 
             return View(Pickups);
         }
@@ -59,7 +60,7 @@ namespace TrashCollector2.Controllers
             {
                 db.Employees.Add(employees);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("DailyPickups");
             }
 
             return View(employees);
@@ -108,16 +109,33 @@ namespace TrashCollector2.Controllers
             }
 
             db.Employees.Remove(employees);
+            db.SaveChanges();
 
             return View(employees);
         }
 
+        public ActionResult CustomerList(string zipcode)
+        {
+            var DailyPickupList = GetDailyPickupList();
+
+            var PickupsFromZipCode = DailyPickupList.Where(z => z.ZipCode == zipcode).ToList();
+
+            return View(PickupsFromZipCode);
+        }
+
+
         public ActionResult MapView(string zipcode)
         {
-            var AvailablePickups = db.Pickups.Include(y => y.PickupDate).Where(z => z.ZipCode == zipcode && z.PickupDate.DayName == DateTime.Today.ToString()).ToList();
+            var AvailablePickups = GetDailyPickupList();
 
             return View(AvailablePickups);
         }
+
+        protected List<Pickup> GetDailyPickupList()
+        {
+            return db.Pickups.Include(y => y.PickupDate).Where(z => z.PickupDate.DayName == DateTime.Today.ToString()).ToList();
+        }
+
 
         protected override void Dispose(bool disposing)
         {

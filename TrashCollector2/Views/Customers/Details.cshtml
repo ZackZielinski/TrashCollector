@@ -4,36 +4,18 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@Model.FirstName @Model.LastName</h2>
 
 <div>
-    <h4>@Model.FirstName @Model.LastName</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.OnVacation)
+            @Html.DisplayNameFor(model => model.MonthlyPayment)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OnVacation)
+            $@Html.DisplayFor(model => model.MonthlyPayment)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ZipCode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ZipCode)
-        </dd>
-
     </dl>
 </div>
 <p>

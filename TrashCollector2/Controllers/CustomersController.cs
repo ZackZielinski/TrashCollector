@@ -97,6 +97,7 @@ namespace TrashCollector2.Controllers
         public ActionResult NewPickup()
         {
             var customer = GetCustomerFromUserId();
+
             Pickup NewPickup = new Pickup()
             {
                 CustomerId = customer.Id,
@@ -109,17 +110,17 @@ namespace TrashCollector2.Controllers
         [HttpPost]
         public ActionResult NewPickup(Pickup NewPickup)
         {
+
             if (ModelState.IsValid)
             {
-                NewPickup.DayId = NewPickup.PickupDate.Id;
                 db.Pickups.Add(NewPickup);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
             }
 
             return RedirectToAction("PickupProgress");
         }
 
+        //View Pickups
         public ActionResult PickupProgress()
         {
             var customer = GetCustomerFromUserId();
@@ -128,7 +129,7 @@ namespace TrashCollector2.Controllers
             return View(CustomerPickups);
         }
 
-        public ActionResult ChangeStatus(int id)
+        public ActionResult ChangeVacationStatus(int id)
         {
             var SelectedPickup = db.Pickups.Find(id);
 
@@ -137,6 +138,7 @@ namespace TrashCollector2.Controllers
             return RedirectToAction("PickupProgress");
         }
 
+        // Delete Pickup
         public ActionResult DropPickup(int? id)
         {
             if (id == null)
@@ -157,6 +159,29 @@ namespace TrashCollector2.Controllers
             return RedirectToAction("PickupProgress");
         }
 
+        public ActionResult EditPickup(int? id)
+        {
+            Pickup SelectedPickup = db.Pickups.SingleOrDefault(y => y.Id == id);
+            if (SelectedPickup == null)
+            {
+                return HttpNotFound();
+            }
+            SelectedPickup.Week = db.Week.ToList();
+            return View(SelectedPickup);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPickup(Pickup pickup)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(pickup).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            return RedirectToAction("PickupProgress");
+        }
 
         protected Customers GetCustomerFromUserId()
         {
@@ -168,7 +193,7 @@ namespace TrashCollector2.Controllers
 
         protected void CalculateCustomerPayment(Customers customer)
         {
-            var Pickups = db.Pickups.Where(x => x.CustomerId == customer.Id).ToList();
+            var Pickups = db.Pickups.Include(y => y.PickupDate).Where(x => x.CustomerId == customer.Id).ToList();
             float Payment = 0;
 
             foreach(Pickup collection in Pickups)
@@ -182,13 +207,13 @@ namespace TrashCollector2.Controllers
 
         protected void CheckStatus(Pickup SelectedPickup)
         {
-            if (SelectedPickup.ActiveStatus == true)
+            if (SelectedPickup.VacationStatus == true)
             {
-                SelectedPickup.ActiveStatus = false;
+                SelectedPickup.VacationStatus = false;
             }
             else
             {
-                SelectedPickup.ActiveStatus = true;
+                SelectedPickup.VacationStatus = true;
             }
             db.SaveChanges();
         }

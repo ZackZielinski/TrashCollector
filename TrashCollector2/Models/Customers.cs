@@ -20,6 +20,7 @@ namespace TrashCollector2.Models
 
         public string Userid { get; set; }
 
+        [Display(Name ="Monthly Payment:")]
         public float MonthlyPayment { get; set; }
 
     }

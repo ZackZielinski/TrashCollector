@@ -163,6 +163,7 @@ namespace TrashCollector2.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    await UserManager.AddToRoleAsync(user.Id, model.UserRole);
 
                     if (model.UserRole == "Customer")
                     {
@@ -473,7 +474,7 @@ namespace TrashCollector2.Controllers
 
             if (UserRole == "Customer")
             {
-                return RedirectToAction("Index", "Customers");
+                return RedirectToAction("PickupProgress", "Customers");
             }
 
             if (UserRole == "Employee")

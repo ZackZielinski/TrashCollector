@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace TrashCollector2.Models
 {
@@ -11,7 +8,8 @@ namespace TrashCollector2.Models
     {
         public Pickup()
         {
-            ActiveStatus = true;
+            VacationStatus = false;
+            PickupStatus = false;
         }
 
         public int Id { get; set; }
@@ -27,14 +25,17 @@ namespace TrashCollector2.Models
         [Display(Name = "Zip Code:")]
         public string ZipCode { get; set; }
 
-        [Display(Name = "Active Status:")]
-        public bool ActiveStatus { get; set; }
+        [Display(Name = "Vacation Status:")]
+        public bool VacationStatus { get; set; }
 
         [ForeignKey("PickupDate")]
         public int DayId { get; set; }
 
         [Display(Name ="Pickup Every:")]
         public Days PickupDate { get; set; }
+
+        [Display(Name ="Pickup Status:")]
+        public bool PickupStatus { get; set; }
 
         public IEnumerable<Days> Week { get; set; }
     }

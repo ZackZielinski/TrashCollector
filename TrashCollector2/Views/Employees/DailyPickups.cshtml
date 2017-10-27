@@ -9,12 +9,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.ZipCode)
         </th>
         <th>
@@ -26,19 +20,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Customer.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.ZipCode)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ActiveStatus)
         </td>
         <td>
-            @Html.ActionLink("View Routes", "MapView", new { zipcode=item.ZipCode })
+            @Html.ActionLink("View Customers From Zip Code", "CustomerList", new { zipcode=item.ZipCode })
         </td>
     </tr>
 }
