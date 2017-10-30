@@ -1,11 +1,11 @@
-﻿@model IEnumerable<TrashCollector2.Models.Pickup>
+﻿@model TrashCollector2.Models.Pickup
 
 @{
-    ViewBag.Title = "Map";
+    ViewBag.Title = "Map View";
 }
 
-<h2>@ViewBag</h2>
-<br/>
+<h2>@ViewBag.Title</h2>
+<br />
 
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="utf-8">
@@ -16,14 +16,15 @@
     }
 </style>
 
-@Html.TextBox("address")
+<!--value: Model.Location + " " + Model.ZipCode-->
+@Html.TextBox("address", null, htmlAttributes: new { style = "width: 500px;" })
 <input id="submit" type="button" value="Locate">
 
 <div class="row">
     <br />
     <div id="map"></div>
     <script>
-      function initMap() {
+              function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 10,
           center: { lat: 42.717915, lng: -87.840409 }
@@ -36,15 +37,18 @@
       }
 
       function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
+          var address = document.getElementById('address').value;
+
         geocoder.geocode({'address': address}, function(results, status) {
           if (status === 'OK') {
-            resultsMap.setCenter(results[0].geometry.location);
+              resultsMap.setCenter(results[0].geometry.location);
+
             var marker = new google.maps.Marker({
               map: resultsMap,
               position: results[0].geometry.location
             });
-          } else {
+          }
+          else {
             alert('Geocode was not successful for the following reason: ' + status);
           }
         });

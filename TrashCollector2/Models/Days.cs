@@ -6,7 +6,7 @@ namespace TrashCollector2.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Pickup On:")]
+        [Display(Name = "Pickup On")]
         public string DayName { get; set; }
 
         public float Payment { get; set; }

@@ -12,10 +12,10 @@ namespace TrashCollector2
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            CreateRolesAndUsers();
+            CreateRoles();
         }
 
-        public void CreateRolesAndUsers()
+        public void CreateRoles()
         {
             ApplicationDbContext context = new ApplicationDbContext();
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));

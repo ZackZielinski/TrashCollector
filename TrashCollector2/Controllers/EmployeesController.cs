@@ -124,11 +124,21 @@ namespace TrashCollector2.Controllers
         }
 
 
-        public ActionResult MapView(string zipcode)
+        public ActionResult MapView(int? id)
         {
-            var AvailablePickups = GetDailyPickupList();
+            var SelectedPickup = db.Pickups.Find(id);
 
-            return View(AvailablePickups);
+            return View(SelectedPickup);
+        }
+
+
+        public ActionResult MapRoute(string zipcode)
+        {
+            var AllPickups = GetDailyPickupList();
+
+            var MatchedPickups = AllPickups.Where(y => y.ZipCode == zipcode).ToList();
+
+            return View(MatchedPickups);
         }
 
         public ActionResult ChangePickupStatus(int id)

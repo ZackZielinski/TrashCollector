@@ -244,6 +244,10 @@
     <Compile Include="Migrations\201710271518112_created a number of pickups in customer model.Designer.cs">
       <DependentUpon>201710271518112_created a number of pickups in customer model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710301842124_added city and state column for pickups and added attribute to address related information.cs" />
+    <Compile Include="Migrations\201710301842124_added city and state column for pickups and added attribute to address related information.Designer.cs">
+      <DependentUpon>201710301842124_added city and state column for pickups and added attribute to address related information.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customers.cs" />
@@ -331,9 +335,10 @@
     <Content Include="Views\Customers\PickupProgress.cshtml" />
     <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
     <Content Include="Views\Employees\DailyPickups.cshtml" />
-    <Content Include="Views\Employees\MapView.cshtml" />
+    <Content Include="Views\Employees\MapRoute.cshtml" />
     <Content Include="Views\Employees\CustomerList.cshtml" />
     <Content Include="Views\Customers\EditPickup.cshtml" />
+    <Content Include="Views\Employees\MapView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -376,6 +381,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710271518112_created a number of pickups in customer model.resx">
       <DependentUpon>201710271518112_created a number of pickups in customer model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710301842124_added city and state column for pickups and added attribute to address related information.resx">
+      <DependentUpon>201710301842124_added city and state column for pickups and added attribute to address related information.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

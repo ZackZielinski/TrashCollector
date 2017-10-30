@@ -50,10 +50,13 @@
         <td>
             @Html.VacationStatus(item.VacationStatus)
         </td>
+        @if (item.VacationStatus == false)
+        {
         <td>
-            @Html.ActionLink("Change Pickup Status", "ChangeStatus", new { id = item.Id }) |
-            @Html.ActionLink("View Map", "MapView", new { id=item.Id })
+            @Html.ActionLink("Change Pickup Status", "ChangePickupStatus", new { id = item.Id }) |
+            @Html.ActionLink("View Map", "MapView", new { id = item.Id })
         </td>
+        }
     </tr>
 }
 

@@ -19,10 +19,22 @@ namespace TrashCollector2.Models
 
         public int CustomerId { get; set; }
 
-        [Display(Name = "Address:")]
+        [Required]
+        [Display(Name = "Address")]
         public string Location { get; set; }
 
-        [Display(Name = "Zip Code:")]
+        [Required]
+        [Display(Name ="City")]
+        public string City { get; set; }
+
+        [Required]
+        [StringLength(2, ErrorMessage = "Please enter the abbrivation of your state")]
+        [Display(Name ="State")]
+        public string State { get; set; }
+
+        [Required]
+        [StringLength(5, ErrorMessage = "Please enter a proper Zip Code", MinimumLength = 5)]
+        [Display(Name = "Zip Code")]
         public string ZipCode { get; set; }
 
         [Display(Name = "Vacation Status:")]
@@ -31,7 +43,7 @@ namespace TrashCollector2.Models
         [ForeignKey("PickupDate")]
         public int DayId { get; set; }
 
-        [Display(Name ="Pickup Every:")]
+        [Display(Name = "Pickup Every")]
         public Days PickupDate { get; set; }
 
         [Display(Name ="Pickup Status:")]

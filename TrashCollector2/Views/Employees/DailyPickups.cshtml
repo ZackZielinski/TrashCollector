@@ -22,6 +22,8 @@
     </tr>
 
 @foreach (var item in Model) {
+    if (item.VacationStatus == false)
+    {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.ZipCode)
@@ -33,9 +35,11 @@
             @Html.VacationStatus(item.VacationStatus)
         </td>
         <td>
-            @Html.ActionLink("View Customers From Zip Code", "CustomerList", new { zipcode=item.ZipCode })
+            @Html.ActionLink("View Customers In Zip Code", "CustomerList", new { zipcode = item.ZipCode }) |
+            @Html.ActionLink("View Map","MapRoute", new { zipcode = item.ZipCode })
         </td>
     </tr>
+    }
 }
 
 </table>

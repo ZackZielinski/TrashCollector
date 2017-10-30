@@ -48,7 +48,7 @@ namespace TrashCollector2.Controllers
                 customers.Userid = User.Identity.GetUserId();
                 db.Customers.Add(customers);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("NewPickup", "Customers");
             }
 
             return View(customers);
@@ -124,6 +124,12 @@ namespace TrashCollector2.Controllers
         public ActionResult PickupProgress()
         {
             var customer = GetCustomerFromUserId();
+
+            if(customer == null)
+            {
+                return HttpNotFound();
+            }
+            
             var CustomerPickups = db.Pickups.Include(y => y.PickupDate).Where(x => x.CustomerId == customer.Id).ToList();
 
             return View(CustomerPickups);
