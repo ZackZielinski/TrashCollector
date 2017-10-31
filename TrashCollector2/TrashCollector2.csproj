@@ -256,6 +256,18 @@
     <Compile Include="Migrations\201710311440596_renamed AssignedZipCode to ZipCode.Designer.cs">
       <DependentUpon>201710311440596_renamed AssignedZipCode to ZipCode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710311830170_created TotalPayment column in customer model.cs" />
+    <Compile Include="Migrations\201710311830170_created TotalPayment column in customer model.Designer.cs">
+      <DependentUpon>201710311830170_created TotalPayment column in customer model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710311901087_removed NumberOfPickups column.cs" />
+    <Compile Include="Migrations\201710311901087_removed NumberOfPickups column.Designer.cs">
+      <DependentUpon>201710311901087_removed NumberOfPickups column.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710311919557_refactored MonthlyPayment from customer model to Pickup Model.cs" />
+    <Compile Include="Migrations\201710311919557_refactored MonthlyPayment from customer model to Pickup Model.Designer.cs">
+      <DependentUpon>201710311919557_refactored MonthlyPayment from customer model to Pickup Model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customers.cs" />
@@ -398,6 +410,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710311440596_renamed AssignedZipCode to ZipCode.resx">
       <DependentUpon>201710311440596_renamed AssignedZipCode to ZipCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710311830170_created TotalPayment column in customer model.resx">
+      <DependentUpon>201710311830170_created TotalPayment column in customer model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710311901087_removed NumberOfPickups column.resx">
+      <DependentUpon>201710311901087_removed NumberOfPickups column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710311919557_refactored MonthlyPayment from customer model to Pickup Model.resx">
+      <DependentUpon>201710311919557_refactored MonthlyPayment from customer model to Pickup Model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

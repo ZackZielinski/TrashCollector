@@ -158,15 +158,6 @@ namespace TrashCollector2.Controllers
             return View(MatchedPickups);
         }
 
-        public ActionResult ChangePickupStatus(int id)
-        {
-            var SelectedPickup = db.Pickups.SingleOrDefault(y => y.Id == id);
-
-            UpdatePickupStatus(SelectedPickup);
-
-            return RedirectToAction("CustomerList", new { zipcode = SelectedPickup.ZipCode });
-        }
-
 
         protected List<Pickup> GetDailyPickupList()
         {
@@ -174,17 +165,21 @@ namespace TrashCollector2.Controllers
             return db.Pickups.Include(x => x.Customer).Include(y => y.PickupDate).Where(z => z.PickupDate.DayName == Today).ToList();
         }
 
-        protected void UpdatePickupStatus(Pickup pickup)
+        public ActionResult UpdatePickupStatus(int id)
         {
-            if (pickup.PickupStatus == true)
+            var CurrentPickup = db.Pickups.Find(id);
+
+            if (CurrentPickup.PickupStatus == true)
             {
-                pickup.PickupStatus = false;
+                CurrentPickup.PickupStatus = false;
             }
             else
             {
-                pickup.PickupStatus = true;
+                CurrentPickup.PickupStatus = true;
             }
             db.SaveChanges();
+
+            return RedirectToAction("PickupOrder", new { id = CurrentPickup.Id });
         }
 
         protected override void Dispose(bool disposing)

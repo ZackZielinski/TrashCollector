@@ -28,7 +28,9 @@ namespace TrashCollector2.Controllers
 
             CalculateCustomerPayment(customers);
 
-            return View(customers);
+            var CustomerPickups = db.Pickups.Include(x => x.Customer).Include(y => y.PickupDate).Where(z => z.CustomerId == customers.Id).ToList();
+
+            return View(CustomerPickups);
         }
 
         // GET: Customers/Create
@@ -200,17 +202,22 @@ namespace TrashCollector2.Controllers
         protected void CalculateCustomerPayment(Customers customer)
         {
             var Pickups = db.Pickups.Include(y => y.PickupDate).Where(x => x.CustomerId == customer.Id).ToList();
-            float Payment = 0;
-            int iterations = 0;
+            float CalculatedMonthlyPayment = 0;
+            float CalculatedTotal = 0;
 
             foreach(Pickup collection in Pickups)
             {
-                Payment += (4 * collection.PickupDate.Payment);
-                iterations++;
+                CalculatedMonthlyPayment = (4 * collection.PickupDate.Payment);
+                if (collection.VacationStatus != true)
+                {
+                    CalculatedTotal += CalculatedMonthlyPayment;
+                }
+                collection.MonthlyPayment = CalculatedMonthlyPayment;
+                db.SaveChanges();
             }
 
-            customer.NumberOfPickups = iterations;
-            customer.MonthlyPayment = Payment;
+            
+            customer.TotalPayment = CalculatedTotal;
             db.SaveChanges();
         }
 

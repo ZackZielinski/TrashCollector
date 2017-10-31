@@ -19,12 +19,9 @@ namespace TrashCollector2.Models
         public ApplicationUser Usertype { get; set; }
 
         public string Userid { get; set; }
-
-        [Display(Name ="Monthly Payment:")]
-        public float MonthlyPayment { get; set; }
-
-        [Display(Name ="Number Of Pickups:")]
-        public int NumberOfPickups { get; set; }
+        
+        [Display(Name = "Current Total:")]
+        public float TotalPayment { get; set; }
 
     }
 }

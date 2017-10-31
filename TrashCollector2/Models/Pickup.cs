@@ -49,6 +49,10 @@ namespace TrashCollector2.Models
         [Display(Name ="Pickup Status:")]
         public bool PickupStatus { get; set; }
 
+
+        [Display(Name = "Monthly Payment:")]
+        public float MonthlyPayment { get; set; }
+
         public IEnumerable<Days> Week { get; set; }
     }
 }
