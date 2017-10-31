@@ -16,8 +16,7 @@
     }
 </style>
 
-<!--value: Model.Location + " " + Model.ZipCode-->
-@Html.TextBox("address", null, htmlAttributes: new { style = "width: 500px;" })
+@Html.TextBox("address", value: Model.Address + ", " + Model.City + ", " + Model.State + ", " + Model.ZipCode, htmlAttributes: new { style = "width: 500px;" })
 <input id="submit" type="button" value="Locate">
 
 <div class="row">

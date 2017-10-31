@@ -18,8 +18,8 @@ namespace TrashCollector2.Models
 
         public string Userid { get; set; }
 
-        [Display(Name = "Assigned Zip Code")]
-        public string AssignedZipCode { get; set; }
+        [Display(Name = "Zip Code:")]
+        public string ZipCode { get; set; }
 
     }
 }

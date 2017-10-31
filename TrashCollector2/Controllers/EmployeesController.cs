@@ -24,7 +24,10 @@ namespace TrashCollector2.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                string userid = User.Identity.GetUserId();
+                var employee = db.Employees.Find(userid);
+
+                return View(employee);
             }
             Employees employees = db.Employees.Find(id);
             if (employees == null)
@@ -34,9 +37,13 @@ namespace TrashCollector2.Controllers
             return View(employees);
         }
 
-        public ActionResult DailyPickups()
+        public ActionResult AvailablePickups()
         {
-            var Pickups = GetDailyPickupList();
+            string UserId = User.Identity.GetUserId();
+            var CurrentEmployee = db.Employees.SingleOrDefault(w => w.Userid == UserId);
+
+            var Pickups = db.Pickups.Include(x=>x.Customer).Include(y=>y.PickupDate).Where(z=>z.ZipCode == CurrentEmployee.ZipCode).ToList();
+
 
             return View(Pickups);
         }
@@ -114,19 +121,29 @@ namespace TrashCollector2.Controllers
             return View(employees);
         }
 
-        public ActionResult CustomerList(string zipcode)
+        public ActionResult PickupOrder(int? id)
         {
-            var DailyPickupList = GetDailyPickupList();
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-            var PickupsFromZipCode = DailyPickupList.Where(z => z.ZipCode == zipcode).ToList();
+            var PickupList = GetDailyPickupList();
 
-            return View(PickupsFromZipCode);
+            var SelectedPickup = PickupList.SingleOrDefault(z => z.Id == id);
+                        
+            return View(SelectedPickup);
         }
 
 
         public ActionResult MapView(int? id)
         {
             var SelectedPickup = db.Pickups.Find(id);
+
+            if(SelectedPickup == null)
+            {
+                return HttpNotFound();
+            }
 
             return View(SelectedPickup);
         }

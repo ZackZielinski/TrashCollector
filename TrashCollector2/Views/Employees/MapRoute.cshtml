@@ -21,35 +21,37 @@
     <br />
     <div id="map"></div>
     <script>
-
-        var addresses = [];
-
-        @foreach(var item in Model)
-        {
-            <text>
-                addresses.push(@item.Location + " " + @item.ZipCode)
-            </text>
-        }
-
         function initMap() {
-
-               var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 8,
-                center: { lat: 43.0389, lng: -87.9065 }
-                    });
-
-                    for (var x = 0; x < addresses.length; x++) {
-                $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + addresses[x] + '&sensor=false', null, function (data) {
-                            var location = data.results[0].geometry.location;
-                            var latlng = new google.maps.LatLng(location.lat, location.lng);
-                            new google.maps.Marker({
-                        position: latlng,
-                        map: map
-                    });
-
-                });
-            }
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: { lat: 42.717915, lng: -87.840409 }
+            });
+            var geocoder = new google.maps.Geocoder();
+            geocodeAddress(geocoder, map);
         }
+
+
+      function geocodeAddress(geocoder, resultsMap) {
+          @*@foreach(var item in Model)
+          {
+              item.Address
+          }*@
+              //var address =
+
+            geocoder.geocode({'address': address}, function(results, status) {
+                  if (status === 'OK') {
+                      resultsMap.setCenter(results[0].geometry.location);
+
+                      var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+                    });
+              }
+          else {
+                  alert('Geocode was not successful for the following reason: ' + status);
+              }
+          });
+      }
     </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAStekB9zs5XGPWoVR6LJ91ezJBo68yL6M&callback=initMap">

@@ -2,30 +2,26 @@
 @using TrashCollector2.CustomHelpers
 
 @{
-    ViewBag.Title = "Available Pickups";
+    ViewBag.Title = "Avaliable Pickups";
 }
 
-<h2> Zip Code: 
-@foreach(var item in Model)
-{
-    @Html.DisplayFor(modelItem => item.ZipCode)
+<h2>@ViewBag.Title</h2>
+@foreach(var item in Model) { 
+<h3>ZipCode: @item.ZipCode</h3>
+<h4>@Html.ActionLink("View All Locations Within Your ZipCode", "MapRoute", new { zipcode = item.ZipCode })</h4>
     break;
 }
-</h2>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.PickupStatus)
+            @Html.DisplayNameFor(model => model.PickupDate.DayName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Customer.FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PickupDate.DayName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location)
+            @Html.DisplayNameFor(model => model.PickupStatus)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.VacationStatus)
@@ -36,25 +32,23 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.PickupStatus(item.PickupStatus)
+            @Html.DisplayFor(modelItem => item.PickupDate.DayName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Customer.FirstName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PickupDate.DayName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
+            @Html.PickupStatus(item.PickupStatus)
         </td>
         <td>
             @Html.VacationStatus(item.VacationStatus)
         </td>
+
         @if (item.VacationStatus == false)
         {
         <td>
-            @Html.ActionLink("Change Pickup Status", "ChangePickupStatus", new { id = item.Id }) |
-            @Html.ActionLink("View Map", "MapView", new { id = item.Id })
+            @Html.ActionLink("View Order", "PickupOrder", new { id = item.Id }) |
+            @Html.ActionLink("View Map", "MapRoute", new { id = item.Id })
         </td>
         }
     </tr>

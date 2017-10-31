@@ -248,6 +248,14 @@
     <Compile Include="Migrations\201710301842124_added city and state column for pickups and added attribute to address related information.Designer.cs">
       <DependentUpon>201710301842124_added city and state column for pickups and added attribute to address related information.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710311345418_changed location column to address column.cs" />
+    <Compile Include="Migrations\201710311345418_changed location column to address column.Designer.cs">
+      <DependentUpon>201710311345418_changed location column to address column.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710311440596_renamed AssignedZipCode to ZipCode.cs" />
+    <Compile Include="Migrations\201710311440596_renamed AssignedZipCode to ZipCode.Designer.cs">
+      <DependentUpon>201710311440596_renamed AssignedZipCode to ZipCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customers.cs" />
@@ -334,11 +342,11 @@
     <Content Include="Views\Customers\NewPickup.cshtml" />
     <Content Include="Views\Customers\PickupProgress.cshtml" />
     <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
-    <Content Include="Views\Employees\DailyPickups.cshtml" />
+    <Content Include="Views\Employees\AvailablePickups.cshtml" />
     <Content Include="Views\Employees\MapRoute.cshtml" />
-    <Content Include="Views\Employees\CustomerList.cshtml" />
     <Content Include="Views\Customers\EditPickup.cshtml" />
     <Content Include="Views\Employees\MapView.cshtml" />
+    <Content Include="Views\Employees\PickupOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -384,6 +392,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710301842124_added city and state column for pickups and added attribute to address related information.resx">
       <DependentUpon>201710301842124_added city and state column for pickups and added attribute to address related information.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710311345418_changed location column to address column.resx">
+      <DependentUpon>201710311345418_changed location column to address column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710311440596_renamed AssignedZipCode to ZipCode.resx">
+      <DependentUpon>201710311440596_renamed AssignedZipCode to ZipCode.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -21,7 +21,7 @@ namespace TrashCollector2.Models
 
         [Required]
         [Display(Name = "Address")]
-        public string Location { get; set; }
+        public string Address { get; set; }
 
         [Required]
         [Display(Name ="City")]
