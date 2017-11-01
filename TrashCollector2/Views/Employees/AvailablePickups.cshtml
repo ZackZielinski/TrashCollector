@@ -8,7 +8,6 @@
 <h2>@ViewBag.Title</h2>
 @foreach(var item in Model) { 
 <h3>ZipCode: @item.ZipCode</h3>
-<h4>@Html.ActionLink("View Locations Based off Zip Code", "MapRoute", new { zipcode = item.ZipCode })</h4>
     break;
 }
 
@@ -48,7 +47,8 @@
         {
         <td>
             @Html.ActionLink("View Order", "PickupOrder", new { id = item.Id }) |
-            @Html.ActionLink("View Map", "MapRoute", new { id = item.Id })
+            @Html.ActionLink("Change Pickup Status", "UpdatePickupStatus", new { id = item.Id }) |
+            @Html.ActionLink("View Map", "MapView", new { id = item.Id })
         </td>
         }
     </tr>

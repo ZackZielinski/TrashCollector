@@ -42,6 +42,11 @@ namespace TrashCollector2.Controllers
             string UserId = User.Identity.GetUserId();
             var CurrentEmployee = db.Employees.SingleOrDefault(w => w.Userid == UserId);
 
+            if (CurrentEmployee == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             var Pickups = db.Pickups.Include(x=>x.Customer).Include(y=>y.PickupDate).Where(z=>z.ZipCode == CurrentEmployee.ZipCode).ToList();
 
 
@@ -51,10 +56,7 @@ namespace TrashCollector2.Controllers
         // GET: Employees/Create
         public ActionResult Create()
         {
-            Employees NewEmployee = new Employees()
-            {
-                Userid = User.Identity.GetUserId()
-            };
+            Employees NewEmployee = new Employees();
             return View(NewEmployee);
         }
 
@@ -65,9 +67,10 @@ namespace TrashCollector2.Controllers
         {
             if (ModelState.IsValid)
             {
+                employees.Userid = User.Identity.GetUserId();
                 db.Employees.Add(employees);
                 db.SaveChanges();
-                return RedirectToAction("DailyPickups");
+                return RedirectToAction("AvailablePickups");
             }
 
             return View(employees);
@@ -146,16 +149,6 @@ namespace TrashCollector2.Controllers
             }
 
             return View(SelectedPickup);
-        }
-
-
-        public ActionResult MapRoute(string zipcode)
-        {
-            var AllPickups = GetDailyPickupList();
-
-            var MatchedPickups = AllPickups.Where(y => y.ZipCode == zipcode).ToList();
-
-            return View(MatchedPickups);
         }
 
 

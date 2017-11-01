@@ -1,4 +1,5 @@
 ﻿@model TrashCollector2.Models.Pickup
+@using TrashCollector2.CustomHelpers
 
 @{
     ViewBag.Title = "Pickup Order";
@@ -7,7 +8,7 @@
 <h2>@Model.Customer.FirstName @Model.Customer.LastName</h2>
 
 <div>
-    <h4>Pickup</h4>
+    <h4>Pickup Details</h4>
     <hr />
     <dl class="dl-horizontal">
 
@@ -56,7 +57,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.VacationStatus)
+            @Html.VacationStatus(Model.VacationStatus)
         </dd>
 
         <dt>
@@ -64,12 +65,13 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PickupStatus)
+            @Html.PickupStatus(Model.PickupStatus)
         </dd>
 
     </dl>
 </div>
 <p>
     @Html.ActionLink("View Map", "MapView", new { id = Model.Id }) |
+    @Html.ActionLink("Change Pickup Status", "UpdatePickupStatus", new { id = Model.Id }) |
     @Html.ActionLink("Back to Pickup List", "AvailablePickups")
 </p>

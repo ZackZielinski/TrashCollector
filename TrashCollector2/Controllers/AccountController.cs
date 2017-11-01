@@ -479,7 +479,7 @@ namespace TrashCollector2.Controllers
 
             if (UserRole == "Employee")
             {
-                return RedirectToAction("DailyPickups", "Employees");
+                return RedirectToAction("AvailablePickups", "Employees");
             }
 
             return RedirectToAction("Index", "Home");
