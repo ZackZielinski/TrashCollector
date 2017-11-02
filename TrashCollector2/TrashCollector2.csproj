@@ -358,7 +358,6 @@
     <Content Include="Views\Customers\EditPickup.cshtml" />
     <Content Include="Views\Employees\MapView.cshtml" />
     <Content Include="Views\Employees\PickupOrder.cshtml" />
-    <Content Include="Views\Employees\MapRoute.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
