@@ -2,7 +2,7 @@
 @using TrashCollector2.CustomHelpers
 
 @{
-    ViewBag.Title = "Avaliable Pickups";
+    ViewBag.Title = "Today's Available Pickups";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -17,7 +17,7 @@
             @Html.DisplayNameFor(model => model.PickupDate.DayName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.FirstName)
+            @Html.DisplayNameFor(model => model.City)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PickupStatus)
@@ -34,7 +34,7 @@
             @Html.DisplayFor(modelItem => item.PickupDate.DayName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Customer.FirstName)
+            @Html.DisplayFor(modelItem => item.City)
         </td>
         <td>
             @Html.PickupStatus(item.PickupStatus)
@@ -46,9 +46,7 @@
         @if (item.VacationStatus == false)
         {
         <td>
-            @Html.ActionLink("View Order", "PickupOrder", new { id = item.Id }) |
-            @Html.ActionLink("Change Pickup Status", "UpdatePickupStatus", new { id = item.Id }) |
-            @Html.ActionLink("View Map", "MapView", new { id = item.Id })
+            @Html.ActionLink("View Order", "PickupOrder", new { id = item.Id })
         </td>
         }
     </tr>

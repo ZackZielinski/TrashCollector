@@ -6,7 +6,7 @@ namespace TrashCollector2.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Pickup On")]
+        [Display(Name = "Pickup Day")]
         public string DayName { get; set; }
 
         [Display(Name = "Cost Per Week:")]

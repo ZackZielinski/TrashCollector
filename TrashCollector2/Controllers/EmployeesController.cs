@@ -20,25 +20,17 @@ namespace TrashCollector2.Controllers
         }
 
         // GET: Employees/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details()
         {
-            if (id == null)
-            {
-                string userid = User.Identity.GetUserId();
-                var employee = db.Employees.Find(userid);
+            string userid = User.Identity.GetUserId();
+            var employee = db.Employees.SingleOrDefault(x=>x.Userid == userid);
 
-                return View(employee);
-            }
-            Employees employees = db.Employees.Find(id);
-            if (employees == null)
-            {
-                return HttpNotFound();
-            }
-            return View(employees);
+            return View(employee);
         }
 
         public ActionResult AvailablePickups()
         {
+            WeeklyReset();
             string UserId = User.Identity.GetUserId();
             var CurrentEmployee = db.Employees.SingleOrDefault(w => w.Userid == UserId);
 
@@ -47,8 +39,8 @@ namespace TrashCollector2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var Pickups = db.Pickups.Include(x=>x.Customer).Include(y=>y.PickupDate).Where(z=>z.ZipCode == CurrentEmployee.ZipCode).ToList();
-
+            var Pickups = GetDailyPickupList();
+            var PickupsInZipCode = Pickups.Where(x => x.ZipCode == CurrentEmployee.ZipCode).ToList();
 
             return View(Pickups);
         }
@@ -100,7 +92,7 @@ namespace TrashCollector2.Controllers
             {
                 db.Entry(employees).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("AvailablePickups");
             }
             return View(employees);
         }
@@ -156,6 +148,23 @@ namespace TrashCollector2.Controllers
         {
             string Today = DateTime.Now.DayOfWeek.ToString();
             return db.Pickups.Include(x => x.Customer).Include(y => y.PickupDate).Where(z => z.PickupDate.DayName == Today).ToList();
+        }
+
+        protected void WeeklyReset()
+        {
+            var AllPickups = db.Pickups.ToList();
+            string TodaysDate = DateTime.Now.DayOfWeek.ToString();
+            string TodaysTime = DateTime.Now.ToString("t");
+
+            if (TodaysDate == "Sunday" && TodaysTime == "11:59 PM")
+            {
+                foreach (var collection in AllPickups)
+                {
+                    collection.PickupStatus = false;
+                    collection.VacationStatus = false;
+                }
+                db.SaveChanges();
+            }
         }
 
         public ActionResult UpdatePickupStatus(int id)

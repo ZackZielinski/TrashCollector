@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -125,6 +126,7 @@ namespace TrashCollector2.Controllers
         //View Pickups
         public ActionResult PickupProgress()
         {
+            WeeklyReset();
             var customer = GetCustomerFromUserId();
 
             if(customer == null)
@@ -231,6 +233,24 @@ namespace TrashCollector2.Controllers
             {
                 SelectedPickup.VacationStatus = true;
             }
+            db.SaveChanges();
+        }
+
+        protected void WeeklyReset()
+        {
+            var AllPickups = db.Pickups.ToList();
+            string TodaysDate = DateTime.Now.DayOfWeek.ToString();
+            string TodaysTime = DateTime.Now.ToString("t");
+
+            if (TodaysDate == "Sunday" && TodaysTime == "11:59 PM")
+            {
+                foreach (var collection in AllPickups)
+                {
+                    collection.PickupStatus = false;
+                    collection.VacationStatus = false;
+                }
+            }
+
             db.SaveChanges();
         }
 

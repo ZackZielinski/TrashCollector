@@ -2,7 +2,7 @@
 @using TrashCollector2.CustomHelpers
 
 @{
-    ViewBag.Title = "Pickup Status";
+    ViewBag.Title = "Pickup Order Status";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -57,8 +57,8 @@
             @Html.VacationStatus(item.VacationStatus)
         </td>
         <td>
+            @Html.ActionLink("Edit Pickup Order", "EditPickup", "Customers", new { id = item.Id }, null) |
             @Html.ActionLink("Change Vacation Status", "ChangeVacationStatus", "Customers", new { id = item.Id }, null) |
-            @Html.ActionLink("Edit", "EditPickup", "Customers", new { id = item.Id }, null) |
             @Html.ActionLink("Delete", "DropPickup", "Customers", new { id=item.Id }, null)
         </td>
     </tr>
