@@ -143,7 +143,6 @@ namespace TrashCollector2.Controllers
             return View(SelectedPickup);
         }
 
-
         protected List<Pickup> GetDailyPickupList()
         {
             string Today = DateTime.Now.DayOfWeek.ToString();
