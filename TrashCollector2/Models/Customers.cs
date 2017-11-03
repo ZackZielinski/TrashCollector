@@ -19,7 +19,7 @@ namespace TrashCollector2.Models
 
         public string Userid { get; set; }
         
-        [Display(Name = "Current Total:")]
+        [Display(Name = "Full Price:")]
         public float TotalPayment { get; set; }
 
     }

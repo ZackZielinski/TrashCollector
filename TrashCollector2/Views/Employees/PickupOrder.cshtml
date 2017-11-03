@@ -59,7 +59,7 @@
         <dd>
             @Html.VacationStatus(Model.VacationStatus)
         </dd>
-
+    @if(Model.VacationStatus == false) {
         <dt>
             @Html.DisplayNameFor(model => model.PickupStatus)
         </dt>
@@ -67,7 +67,25 @@
         <dd>
             @Html.PickupStatus(Model.PickupStatus)
         </dd>
+    }
+    else
+    {
+        <dt>
+            @Html.DisplayNameFor(model => model.VacationStart)
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.VacationStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VacationEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VacationEnd)
+        </dd>
+    }
     </dl>
 </div>
 <p>

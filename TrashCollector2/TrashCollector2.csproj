@@ -268,6 +268,14 @@
     <Compile Include="Migrations\201710311919557_refactored MonthlyPayment from customer model to Pickup Model.Designer.cs">
       <DependentUpon>201710311919557_refactored MonthlyPayment from customer model to Pickup Model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711031604341_removed VacationEnd and VacationStart columns.cs" />
+    <Compile Include="Migrations\201711031604341_removed VacationEnd and VacationStart columns.Designer.cs">
+      <DependentUpon>201711031604341_removed VacationEnd and VacationStart columns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711031605528_created Vacation time columns for Pickup Model.cs" />
+    <Compile Include="Migrations\201711031605528_created Vacation time columns for Pickup Model.Designer.cs">
+      <DependentUpon>201711031605528_created Vacation time columns for Pickup Model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customers.cs" />
@@ -358,6 +366,7 @@
     <Content Include="Views\Customers\EditPickup.cshtml" />
     <Content Include="Views\Employees\MapView.cshtml" />
     <Content Include="Views\Employees\PickupOrder.cshtml" />
+    <Content Include="Views\Customers\ChangeVacationStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -418,6 +427,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710311919557_refactored MonthlyPayment from customer model to Pickup Model.resx">
       <DependentUpon>201710311919557_refactored MonthlyPayment from customer model to Pickup Model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711031604341_removed VacationEnd and VacationStart columns.resx">
+      <DependentUpon>201711031604341_removed VacationEnd and VacationStart columns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711031605528_created Vacation time columns for Pickup Model.resx">
+      <DependentUpon>201711031605528_created Vacation time columns for Pickup Model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

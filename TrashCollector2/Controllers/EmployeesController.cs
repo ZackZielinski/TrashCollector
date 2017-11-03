@@ -42,7 +42,7 @@ namespace TrashCollector2.Controllers
             var Pickups = GetDailyPickupList();
             var PickupsInZipCode = Pickups.Where(x => x.ZipCode == CurrentEmployee.ZipCode).ToList();
 
-            return View(Pickups);
+            return View(PickupsInZipCode);
         }
 
         // GET: Employees/Create

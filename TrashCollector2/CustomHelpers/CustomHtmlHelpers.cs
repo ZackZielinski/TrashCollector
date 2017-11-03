@@ -14,5 +14,11 @@ namespace TrashCollector2.CustomHelpers
             var result = condition ? "On Holiday" : "Not On Holiday";
             return new MvcHtmlString(result);
         }
+
+        public static MvcHtmlString DateFormat(this HtmlHelper helper, string Date)
+        {
+            var result = string.Format("{0:d}", Date);
+            return new MvcHtmlString(result);
+        }
     }
 }

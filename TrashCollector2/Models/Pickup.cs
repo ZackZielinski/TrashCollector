@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -52,6 +53,14 @@ namespace TrashCollector2.Models
 
         [Display(Name = "Monthly Payment:")]
         public float MonthlyPayment { get; set; }
+
+
+        [Display(Name = "Do Not Pickup From (mm-dd-yyyy)")]
+        public string VacationStart { get; set; }
+
+
+        [Display(Name = "Pickup Again Starting (mm-dd-yyyy)")]
+        public string VacationEnd { get; set; }
 
         public IEnumerable<Days> Week { get; set; }
     }

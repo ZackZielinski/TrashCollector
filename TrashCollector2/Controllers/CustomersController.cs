@@ -139,13 +139,11 @@ namespace TrashCollector2.Controllers
             return View(CustomerPickups);
         }
 
-        public ActionResult ChangeVacationStatus(int id)
+        public ActionResult ChangeVacationTime(int id)
         {
             var SelectedPickup = db.Pickups.Find(id);
 
-            CheckStatus(SelectedPickup);
-
-            return RedirectToAction("PickupProgress");
+            return View(SelectedPickup);
         }
 
         // Delete Pickup
@@ -190,6 +188,9 @@ namespace TrashCollector2.Controllers
                 db.Entry(pickup).State = EntityState.Modified;
                 db.SaveChanges();
             }
+
+            CalculateVacationStatus(pickup.Id);
+
             return RedirectToAction("PickupProgress");
         }
 
@@ -207,7 +208,7 @@ namespace TrashCollector2.Controllers
             float CalculatedMonthlyPayment = 0;
             float CalculatedTotal = 0;
 
-            foreach(Pickup collection in Pickups)
+            foreach (Pickup collection in Pickups)
             {
                 CalculatedMonthlyPayment = (4 * collection.PickupDate.Payment);
                 if (collection.VacationStatus != true)
@@ -218,21 +219,8 @@ namespace TrashCollector2.Controllers
                 db.SaveChanges();
             }
 
-            
-            customer.TotalPayment = CalculatedTotal;
-            db.SaveChanges();
-        }
 
-        protected void CheckStatus(Pickup SelectedPickup)
-        {
-            if (SelectedPickup.VacationStatus == true)
-            {
-                SelectedPickup.VacationStatus = false;
-            }
-            else
-            {
-                SelectedPickup.VacationStatus = true;
-            }
+            customer.TotalPayment = CalculatedTotal;
             db.SaveChanges();
         }
 
@@ -248,11 +236,36 @@ namespace TrashCollector2.Controllers
                 {
                     collection.PickupStatus = false;
                     collection.VacationStatus = false;
+                    collection.VacationStart = null;
+                    collection.VacationEnd = null;
                 }
             }
 
             db.SaveChanges();
         }
+
+        protected void CalculateVacationStatus(int PickupId)
+        {
+            var SelectedPickup = db.Pickups.Find(PickupId);
+            var CurrentDate = DateTime.Today;
+            var VacationBegin = Convert.ToDateTime(SelectedPickup.VacationStart);
+            var VacationEnd = Convert.ToDateTime(SelectedPickup.VacationEnd);
+
+            int VacationStartDateResult = DateTime.Compare(CurrentDate, VacationBegin);
+            int VacationEndDateResult = DateTime.Compare(CurrentDate, VacationEnd);
+
+            if(VacationStartDateResult == 1 || VacationStartDateResult == 0)
+            {
+                SelectedPickup.VacationStatus = true;
+            }
+            if(VacationEndDateResult == 1)
+            {
+                SelectedPickup.VacationStatus = false;
+            }
+           
+            db.SaveChanges();
+        }
+
 
         protected override void Dispose(bool disposing)
         {
