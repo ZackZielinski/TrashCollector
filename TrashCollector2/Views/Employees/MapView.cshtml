@@ -4,7 +4,7 @@
     ViewBag.Title = "Map View";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@Model.Address, @Model.City, @Model.State, @Model.ZipCode</h2>
 <br />
 
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,14 @@
     }
 </style>
 
-@Html.TextBox("address", value: Model.Address + " " + Model.City + " " + Model.State + " " + Model.ZipCode, htmlAttributes: new { style = "width: 100%;" })
+@{if (Model == null) {
+    @Html.TextBox("address", value: "", htmlAttributes: new { style = "width: 100%;" })
+    }
+    else
+    {
+    @Html.TextBox("address", value: Model.Address + " " + Model.City + " " + Model.State + " " + Model.ZipCode, htmlAttributes: new { style = "width: 100%;" })
+    }
+}
 <input id="submit" type="button" value="Locate">
 
 <div class="row">
@@ -29,8 +36,6 @@
           center: { lat: 42.717915, lng: -87.840409 }
         });
         var geocoder = new google.maps.Geocoder();
-
-        geocodeAddress(geocoder, map);
 
         document.getElementById('submit').addEventListener('click', function() {
           geocodeAddress(geocoder, map);
@@ -50,12 +55,12 @@
             });
           }
           else {
-            alert('Location not Found ' + status);
+            alert('Location not Found: ' + status);
           }
         });
       }
     </script>
     <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAStekB9zs5XGPWoVR6LJ91ezJBo68yL6M&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGQzRBHuUI2g2c2zUytzl0E2JPMy2IJwo&callback=initMap">
     </script>
 </div>

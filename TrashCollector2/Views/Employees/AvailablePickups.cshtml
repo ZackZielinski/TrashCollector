@@ -8,6 +8,7 @@
 <h2>@ViewBag.Title</h2>
 @foreach(var item in Model) { 
 <h3>ZipCode: @item.ZipCode</h3>
+@Html.ActionLink("View Routes Via Zip Code", "MapRoute", new { zipcode = item.ZipCode })
     break;
 }
 

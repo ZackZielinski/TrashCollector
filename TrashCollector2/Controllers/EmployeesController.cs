@@ -135,12 +135,16 @@ namespace TrashCollector2.Controllers
         {
             var SelectedPickup = db.Pickups.Find(id);
 
-            if(SelectedPickup == null)
-            {
-                return HttpNotFound();
-            }
-
             return View(SelectedPickup);
+        }
+
+        public ActionResult MapRoute(string zipcode)
+        {
+            var DailyPickups = GetDailyPickupList();
+
+            var PickupsInZipCode = DailyPickups.Where(x => x.ZipCode == zipcode).ToList();
+
+            return View(PickupsInZipCode);
         }
 
         protected List<Pickup> GetDailyPickupList()

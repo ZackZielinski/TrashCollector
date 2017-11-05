@@ -139,11 +139,25 @@ namespace TrashCollector2.Controllers
             return View(CustomerPickups);
         }
 
-        public ActionResult ChangeVacationTime(int id)
+        public ActionResult ChangeVacationDates(int id)
         {
             var SelectedPickup = db.Pickups.Find(id);
 
             return View(SelectedPickup);
+        }
+
+        [HttpPost]
+        public ActionResult ChangeVacationDates(Pickup NewVacationTime)
+        {
+            var PickupInDb = db.Pickups.Find(NewVacationTime.Id);
+
+            PickupInDb.VacationStart = NewVacationTime.VacationStart;
+            PickupInDb.VacationEnd = NewVacationTime.VacationEnd;
+            db.SaveChanges();
+
+            CalculateVacationStatus(PickupInDb.Id);
+
+            return RedirectToAction("PickupProgress");
         }
 
         // Delete Pickup
@@ -189,7 +203,9 @@ namespace TrashCollector2.Controllers
                 db.SaveChanges();
             }
 
-            CalculateVacationStatus(pickup.Id);
+            var ChangedPickup = db.Pickups.Find(pickup.Id);
+
+            CalculateVacationStatus(ChangedPickup.Id);
 
             return RedirectToAction("PickupProgress");
         }
