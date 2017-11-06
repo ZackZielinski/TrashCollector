@@ -7,8 +7,7 @@
 
 <h2>@ViewBag.Title</h2>
 @foreach(var item in Model) { 
-<h3>ZipCode: @item.ZipCode</h3>
-@Html.ActionLink("View Routes Via Zip Code", "MapRoute", new { zipcode = item.ZipCode })
+<h3>ZipCode: @item.ZipCode @Html.ActionLink("View Routes Via Zip Code", "MapRoute", new { zipcode = item.ZipCode }) </h3>
     break;
 }
 
@@ -26,6 +25,13 @@
         <th>
             @Html.DisplayNameFor(model => model.VacationStatus)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VacationStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VacationEnd)
+        </th>
+        
         <th></th>
     </tr>
 
@@ -47,8 +53,22 @@
         @if (item.VacationStatus == false)
         {
         <td>
+        </td>
+        <td>
+        </td>
+
+        <td>
             @Html.ActionLink("View Order", "PickupOrder", new { id = item.Id })
         </td>
+        }
+        else
+        {
+            <td>
+                @Html.DisplayDate(item.VacationStart)
+            </td>
+            <td>
+                @Html.DisplayDate(item.VacationEnd)
+            </td>
         }
     </tr>
 }

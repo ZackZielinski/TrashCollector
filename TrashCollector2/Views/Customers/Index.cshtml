@@ -14,6 +14,12 @@
         <th>
             @Html.DisplayNameFor(model => model.LastName)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfAssignedPickups)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfActivePickups)
+        </th>
         <th></th>
     </tr>
 
@@ -26,6 +32,13 @@
             @Html.DisplayFor(modelItem => item.LastName)
         </td>
         <td>
+            @Html.DisplayFor(modelitem => item.NumberOfAssignedPickups)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfActivePickups)
+        </td>
+        <td>
+            @Html.ActionLink("View Customer orders", "CustomerOrders", new { id = item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>

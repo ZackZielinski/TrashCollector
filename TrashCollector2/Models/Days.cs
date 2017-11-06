@@ -9,8 +9,8 @@ namespace TrashCollector2.Models
         [Display(Name = "Pickup Day")]
         public string DayName { get; set; }
 
-        [Display(Name = "Price Per Week:")]
-        public float Payment { get; set; }
+        [Display(Name = "Weekly Cost:")]
+        public float WeeklyPayment { get; set; }
 
     }
 }

@@ -276,6 +276,14 @@
     <Compile Include="Migrations\201711031605528_created Vacation time columns for Pickup Model.Designer.cs">
       <DependentUpon>201711031605528_created Vacation time columns for Pickup Model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711061751133_created a number of assigned and active pickups for customers.cs" />
+    <Compile Include="Migrations\201711061751133_created a number of assigned and active pickups for customers.Designer.cs">
+      <DependentUpon>201711061751133_created a number of assigned and active pickups for customers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711062020099_changed Payment name to WeeklyPayment.cs" />
+    <Compile Include="Migrations\201711062020099_changed Payment name to WeeklyPayment.Designer.cs">
+      <DependentUpon>201711062020099_changed Payment name to WeeklyPayment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customers.cs" />
@@ -368,6 +376,7 @@
     <Content Include="Views\Employees\PickupOrder.cshtml" />
     <Content Include="Views\Customers\ChangeVacationDates.cshtml" />
     <Content Include="Views\Employees\MapRoute.cshtml" />
+    <Content Include="Views\Customers\CustomerOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -434,6 +443,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711031605528_created Vacation time columns for Pickup Model.resx">
       <DependentUpon>201711031605528_created Vacation time columns for Pickup Model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711061751133_created a number of assigned and active pickups for customers.resx">
+      <DependentUpon>201711061751133_created a number of assigned and active pickups for customers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711062020099_changed Payment name to WeeklyPayment.resx">
+      <DependentUpon>201711062020099_changed Payment name to WeeklyPayment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

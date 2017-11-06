@@ -19,8 +19,14 @@ namespace TrashCollector2.Models
 
         public string Userid { get; set; }
         
-        [Display(Name = "Full Price:")]
+        [Display(Name = "Full Payment:")]
         public float TotalPayment { get; set; }
+
+        [Display(Name ="Number of Assigned Pickups")]
+        public int NumberOfAssignedPickups { get; set; }
+
+        [Display(Name = "Number of Active Pickups")]
+        public int NumberOfActivePickups { get; set; }
 
     }
 }

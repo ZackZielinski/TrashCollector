@@ -4,20 +4,20 @@
     ViewBag.Title = "Map Route";
 }
 
-<h3> Enter your starting location :</h3>
+<h3> Enter your starting location:</h3>
 
 <div class="row">
     <div class="col-md-12">
-        <input id="Origin" type="text" name="name" value="" />
+        <input id="Origin" type="text" name="name" value="" style="width: 100%"/>
         <br />
         <br />
-        <h4 style="text-decoration:underline">List of Destinations:</h4>
+        <h4>Destinations:</h4>
         <div id="destinations"></div><br />
 
-        <div>Add a Destination</div>
+        <h4>Enter a Destination to Add to Your Route</h4>
         <div>
-            <input id="Waypoint" type="text" name="name" value="" />
-            <input type="button" value="Add Location To Route" onclick="PushDestination()" />
+            <input id="Waypoint" type="text" name="name" value="" style="width: 100%"/>
+            <input type="button" value="Add Destination To Route" onclick="PushDestination()" />
         </div>
         <br />
 
@@ -111,56 +111,61 @@
             directionsDisplay.setMap(map);
 
             source = document.getElementById("Origin").value;
-            destination = document.getElementById("Waypoint").value;
-
-            var waypoints = [];
-            for (var i = 0; i < locations.length; i++) {
-                var address = locations[i];
-                if (address !== "") {
-                    waypoints.push({
-                        location: address,
-                        stopover: true
-                    });
-                }
+            if (source === "" || source === undefined) {
+                alert("No Starting Location specified");
             }
+            else {
+                destination = document.getElementById("Waypoint").value;
 
-            var request = {
-                origin: source,
-                destination: waypoints[0].location,
-                waypoints: waypoints,
-                optimizeWaypoints: true,
-                travelMode: google.maps.DirectionsTravelMode.DRIVING
-            };
-
-            directionsService.route(request, function (response, status) {
-                if (status == google.maps.DirectionsStatus.OK) {
-                    var dvDistance = document.getElementById("dvDistance");
-                    var distance = 0;
-                    var minute = 0.00;
-                    response.routes[0].legs.forEach(function (item, index) {
-                        if (index < response.routes[0].legs.length - 1) {
-                            distance = distance + parseInt(item.distance.text);
-                            minute = parseFloat(minute) + parseFloat(item.duration.value / 60);
-
-                            tbl = document.getElementById("tblResults");
-                            var row = tbl.insertRow(1);
-                            var cell = row.insertCell(0);
-                            cell.innerText = source;
-                            var cell = row.insertCell(1);
-                            cell.innerText = item.end_address;
-                            var cell = row.insertCell(2);
-                            cell.innerText = distance + " mi";
-                            var cell = row.insertCell(3);
-                            cell.innerText = minute.toFixed(2) + " min";
-                        }
-                    });
-                    directionsDisplay.setDirections(response);
+                var waypoints = [];
+                for (var i = 0; i < locations.length; i++) {
+                    var address = locations[i];
+                    if (address !== "") {
+                        waypoints.push({
+                            location: address,
+                            stopover: true
+                        });
+                    }
                 }
-                else {
-                    alert("Unable to find a proper route");
+
+                var request = {
+                    origin: source,
+                    destination: waypoints[0].location,
+                    waypoints: waypoints,
+                    optimizeWaypoints: true,
+                    travelMode: google.maps.DirectionsTravelMode.DRIVING
+                };
+
+                directionsService.route(request, function (response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        var dvDistance = document.getElementById("dvDistance");
+                        var distance = 0;
+                        var minute = 0.00;
+                        response.routes[0].legs.forEach(function (item, index) {
+                            if (index < response.routes[0].legs.length - 1) {
+                                distance = distance + parseInt(item.distance.text);
+                                minute = parseFloat(minute) + parseFloat(item.duration.value / 60);
+
+                                tbl = document.getElementById("tblResults");
+                                var row = tbl.insertRow(1);
+                                var cell = row.insertCell(0);
+                                cell.innerText = source;
+                                var cell = row.insertCell(1);
+                                cell.innerText = item.end_address;
+                                var cell = row.insertCell(2);
+                                cell.innerText = distance + " mi";
+                                var cell = row.insertCell(3);
+                                cell.innerText = minute.toFixed(2) + " min";
+                            }
+                        });
+                        directionsDisplay.setDirections(response);
+                    }
+                    else {
+                        alert("Unable to find a proper route");
+                    }
+                })
             }
-            })
-        };
+        }
 
     </script>
 }

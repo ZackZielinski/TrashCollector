@@ -1,0 +1,83 @@
+﻿@model IEnumerable<TrashCollector2.Models.Pickup>
+@using TrashCollector2.CustomHelpers
+
+@{
+    ViewBag.Title = "Customer Orders";
+}
+
+
+    @foreach (var item in Model)
+    {<h2>
+        @item.Customer.FirstName @item.Customer.LastName
+    </h2>
+        break;
+    }
+    
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PickupDate.WeeklyPayment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PickupDate.DayName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PickupStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VacationStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VacationStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VacationEnd)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                $@Html.DisplayPayment(item.PickupDate.WeeklyPayment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PickupDate.DayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.PickupStatus(item.PickupStatus)
+            </td>
+            <td>
+                @Html.VacationStatus(item.VacationStatus)
+            </td>
+
+            @if (item.VacationStatus == false)
+            {
+                <td></td>
+                <td></td>
+                <td>
+                    @Html.ActionLink("View Order", "PickupOrder", new { id = item.Id })
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayDate(item.VacationStart)
+                </td>
+                <td>
+                    @Html.DisplayDate(item.VacationEnd)
+                </td>
+            }
+        </tr>
+    }
+
+</table>
+

@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<TrashCollector2.Models.Pickup>
+@using TrashCollector2.CustomHelpers
 
 @{
     ViewBag.Title = "Details";
@@ -12,7 +13,7 @@
 <h3>@Html.DisplayNameFor(model => model.Customer.TotalPayment)
     $@foreach (var item in Model)
     {
-        @Html.DisplayFor(modelitem => item.Customer.TotalPayment.ToString("N2"))
+        @Html.DisplayPayment(item.Customer.TotalPayment)
         break;
     }
 </h3>
@@ -34,7 +35,7 @@
             @Html.DisplayNameFor(model => model.State)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PickupDate.Payment)
+            @Html.DisplayNameFor(model => model.PickupDate.WeeklyPayment)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MonthlyPayment)
@@ -58,15 +59,15 @@
                 @Html.DisplayFor(modelItem => item.State)
             </td>
             <td>
-                $@Html.DisplayFor(modelItem => item.PickupDate.Payment.ToString("N2"))
+                $@Html.DisplayPayment(item.PickupDate.WeeklyPayment)
             </td>
             <td>
-                $@Html.DisplayFor(modelItem => item.MonthlyPayment.ToString("N2"))
+                $@Html.DisplayPayment(item.MonthlyPayment)
             </td>
         </tr>
     }
 
 </table>
 <p>
-    @Html.ActionLink("Pickup Progress", "PickupProgress")
+    @Html.ActionLink("View Assigned Pickups", "PickupProgress")
 </p>

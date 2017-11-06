@@ -15,7 +15,14 @@ namespace TrashCollector2.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            return View(db.Customers.ToList());
+            var Customers = db.Customers.ToList();
+
+            foreach(var customer in Customers)
+            {
+                CalculateNumberOfPickups(customer);
+            }
+
+            return View(Customers);
         }
 
         // GET: Customers/Details/5
@@ -133,7 +140,9 @@ namespace TrashCollector2.Controllers
             {
                 return HttpNotFound();
             }
-            
+
+            CalculateCustomerPayment(customer);
+
             var CustomerPickups = db.Pickups.Include(y => y.PickupDate).Where(x => x.CustomerId == customer.Id).ToList();
 
             return View(CustomerPickups);
@@ -210,6 +219,28 @@ namespace TrashCollector2.Controllers
             return RedirectToAction("PickupProgress");
         }
 
+
+        public ActionResult CustomerOrders(int id)
+        {
+            var CurrentCustomer = db.Customers.Find(id);
+            var CustomerPickups = db.Pickups.Include(w=>w.PickupDate).Include(x => x.Customer).Where(y => y.CustomerId == id).ToList();
+
+            if(CustomerPickups == null)
+            {
+                return HttpNotFound();
+            }
+
+            if(CurrentCustomer == null)
+            {
+                return HttpNotFound();
+            }
+
+            CalculateCustomerPayment(CurrentCustomer);
+
+            return View(CustomerPickups);
+        }
+
+
         protected Customers GetCustomerFromUserId()
         {
             string UserId = User.Identity.GetUserId();
@@ -226,7 +257,7 @@ namespace TrashCollector2.Controllers
 
             foreach (Pickup collection in Pickups)
             {
-                CalculatedMonthlyPayment = (4 * collection.PickupDate.Payment);
+                CalculatedMonthlyPayment = (4 * collection.PickupDate.WeeklyPayment);
                 if (collection.VacationStatus != true)
                 {
                     CalculatedTotal += CalculatedMonthlyPayment;
@@ -234,7 +265,6 @@ namespace TrashCollector2.Controllers
                 collection.MonthlyPayment = CalculatedMonthlyPayment;
                 db.SaveChanges();
             }
-
 
             customer.TotalPayment = CalculatedTotal;
             db.SaveChanges();
@@ -252,8 +282,6 @@ namespace TrashCollector2.Controllers
                 {
                     collection.PickupStatus = false;
                     collection.VacationStatus = false;
-                    collection.VacationStart = null;
-                    collection.VacationEnd = null;
                 }
             }
 
@@ -282,6 +310,24 @@ namespace TrashCollector2.Controllers
             db.SaveChanges();
         }
 
+        protected void CalculateNumberOfPickups(Customers CurrentCustomer)
+        {
+            var CustomerPickupList = db.Pickups.Include(x => x.Customer).Where(y => y.CustomerId == CurrentCustomer.Id).ToList();
+            int TotalAssignedPickups = 0;
+            int TotalActivePickups = 0;
+
+            foreach (var Pickup in CustomerPickupList)
+            {
+                TotalAssignedPickups++;
+                if (Pickup.VacationStatus == false)
+                {
+                    TotalActivePickups++;
+                }
+                Pickup.Customer.NumberOfAssignedPickups = TotalAssignedPickups;
+                Pickup.Customer.NumberOfActivePickups = TotalActivePickups;
+            }
+            db.SaveChanges();
+        }
 
         protected override void Dispose(bool disposing)
         {

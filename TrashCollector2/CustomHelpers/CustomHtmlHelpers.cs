@@ -4,20 +4,26 @@ namespace TrashCollector2.CustomHelpers
 {
     public static class CustomHtmlHelpers
     {
-        public static MvcHtmlString PickupStatus(this HtmlHelper helper, bool condition)
+        public static MvcHtmlString PickupStatus(this HtmlHelper helper, bool Condition)
         {
-            var result = condition ? "Pickup Collected" : "Not collected";
+            string result = Condition ? "Pickup Collected" : "Not collected";
             return new MvcHtmlString(result);
         }
-        public static MvcHtmlString VacationStatus(this HtmlHelper helper, bool condition)
+        public static MvcHtmlString VacationStatus(this HtmlHelper helper, bool Condition)
         {
-            var result = condition ? "On Holiday" : "Not On Holiday";
+            string result = Condition ? "On Holiday" : "Not On Holiday";
             return new MvcHtmlString(result);
         }
 
-        public static MvcHtmlString DateFormat(this HtmlHelper helper, string Date)
+        public static MvcHtmlString DisplayDate(this HtmlHelper helper, string Date)
         {
-            var result = string.Format("{0:d}", Date);
+            string result = string.Format("{0:d}", Date);
+            return new MvcHtmlString(result);
+        }
+
+        public static MvcHtmlString DisplayPayment(this HtmlHelper helper, float Payment)
+        {
+            string result = Payment.ToString("N2");
             return new MvcHtmlString(result);
         }
     }
