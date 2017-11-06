@@ -71,16 +71,15 @@ namespace TrashCollector2.Controllers
         // GET: Employees/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            var employee = db.Employees.Find(id);
+
+            if(employee == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                string UserId = User.Identity.GetUserId();
+                employee = db.Employees.SingleOrDefault(y => y.Userid == UserId);
             }
-            Employees employees = db.Employees.Find(id);
-            if (employees == null)
-            {
-                return HttpNotFound();
-            }
-            return View(employees);
+
+            return View(employee);
         }
 
         // POST: Employees/Edit/5
@@ -133,7 +132,7 @@ namespace TrashCollector2.Controllers
 
         public ActionResult MapView(int? id)
         {
-            var SelectedPickup = db.Pickups.Find(id);
+            var SelectedPickup = db.Pickups.Include(y=>y.Customer).SingleOrDefault(z=>z.Id == id);
 
             return View(SelectedPickup);
         }

@@ -4,25 +4,28 @@
     ViewBag.Title = "Map Route";
 }
 
-<h2> Enter your starting location :</h2>
+<h3> Enter your starting location :</h3>
 
 <div class="row">
     <div class="col-md-12">
-        <input id="Origin" type="text" name="name" value="" />   <br />  <br />
+        <input id="Origin" type="text" name="name" value="" />
+        <br />
+        <br />
+        <h4 style="text-decoration:underline">List of Destinations:</h4>
+        <div id="destinations"></div><br />
 
         <div>Add a Destination</div>
         <div>
             <input id="Waypoint" type="text" name="name" value="" />
             <input type="button" value="Add Location To Route" onclick="PushDestination()" />
         </div>
-        <div>List of Destinations:</div><br />
-        <div id="destinations"></div><br />
+        <br />
 
         <input type="button" value="Locate" onclick="GetRoute()" />
         <p></p>
         <br />
         <div id="dvDistance">
-            <table id="tblResults" border="1" cellpadding="2">
+            <table id="tblResults" border="1" cellpadding="5">
                 <tr>
                     <th> Starting Location </th>
                     <th> Ending Location </th>
@@ -32,13 +35,25 @@
             </table>
 
         </div>
-
-        <p></p>
-
+        <br />
         <div id="dvMap" style="min-height:500px"></div>
 
     </div>
 </div>
+
+<style>
+    table#tblResults th {
+        border: 1px solid;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+    table#tblResults td{
+        border: 1px solid;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+</style>
 
 @section scripts{
 
@@ -76,7 +91,7 @@
                 destination = document.getElementById("Waypoint").value;
             }
 
-            if (destination !== "") {
+            if (destination !== "" && destination !== undefined) {
                 locations.push(destination);
                 document.getElementById("Waypoint").value = "";
                 destinationArray = document.getElementById("destinations");
@@ -134,7 +149,7 @@
                             var cell = row.insertCell(1);
                             cell.innerText = item.end_address;
                             var cell = row.insertCell(2);
-                            cell.innerText = distance;
+                            cell.innerText = distance + " mi";
                             var cell = row.insertCell(3);
                             cell.innerText = minute.toFixed(2) + " min";
                         }

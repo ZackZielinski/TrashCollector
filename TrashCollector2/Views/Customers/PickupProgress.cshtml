@@ -2,7 +2,7 @@
 @using TrashCollector2.CustomHelpers
 
 @{
-    ViewBag.Title = "Pickup Order Status";
+    ViewBag.Title = "Pickups Assigned";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -55,12 +55,6 @@
         </td>
         <td>
             @Html.VacationStatus(item.VacationStatus)
-        </td>
-        <td>
-            @Html.DateFormat(item.VacationStart)
-        </td>
-        <td>
-            @Html.DateFormat(item.VacationEnd)
         </td>
         <td>
             @Html.ActionLink("Edit Pickup Order", "EditPickup", "Customers", new { id = item.Id }, null) |
