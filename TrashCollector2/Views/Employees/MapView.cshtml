@@ -16,12 +16,14 @@
     }
 </style>
 
-@{if (Model == null) {
-    @Html.TextBox("address", value: null, htmlAttributes: new { style = "width: 100%;" })
+@{if (Model == null)
+    {
+        <input id="address" type="text" name="name" value="" style="width: 100%" />
     }
     else
     {
-    @Html.TextBox("address", value: Model.Address + " " + Model.City + " " + Model.State + " " + Model.ZipCode, htmlAttributes: new { style = "width: 100%;" })
+        var FullAddress = Model.Address + " " + Model.City + " " + Model.State + " " + Model.ZipCode;
+        <input id="address" type="text" name="name" value="@FullAddress" style="width: 100%" />
     }
 }
 <input id="submit" type="button" value="Locate">
@@ -29,19 +31,25 @@
 <div class="row">
     <br />
     <div id="map"></div>
-    <script>
+</div>
 
-        google.maps.event.addDomListener(window, 'load', function () {
-            new google.maps.places.SearchBox(document.getElementById('address'));
-        });
+@section scripts{
 
-              function initMap() {
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDGQzRBHuUI2g2c2zUytzl0E2JPMy2IJwo&callback=initMap"
+        async defer></script>
+
+<script>
+      function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 8,
           center: { lat: 42.717915, lng: -87.840409 }
         });
         var geocoder = new google.maps.Geocoder();
 
+        google.maps.event.addDomListener(window, 'load', function () {
+            new google.maps.places.SearchBox(document.getElementById('address'));
+            directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': false });
+        });
 
         geocodeAddress(geocoder, map);
 
@@ -72,8 +80,5 @@
                       alert('Please Insert a destination')
                   }
               }
-    </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGQzRBHuUI2g2c2zUytzl0E2JPMy2IJwo&callback=initMap">
-    </script>
-</div>
+</script>
+}

@@ -240,6 +240,18 @@ namespace TrashCollector2.Controllers
             return View(CustomerPickups);
         }
 
+        public ActionResult VacationDates(int? id)
+        {
+            var SelectedPickup = db.Pickups.Include(x => x.PickupDate).SingleOrDefault(z => z.Id == id);
+
+            if(SelectedPickup == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(SelectedPickup);
+        }
+
 
         protected Customers GetCustomerFromUserId()
         {

@@ -1,0 +1,31 @@
+﻿@model TrashCollector2.Models.Pickup
+
+@{
+    ViewBag.Title = "Vacation Duration";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VacationStart)
+        </dt>
+
+        <dd>
+            <h4>@Html.DisplayFor(model => model.VacationStart)</h4>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VacationEnd)
+        </dt>
+
+        <dd>
+            <h4>@Html.DisplayFor(model => model.VacationEnd)</h4>
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Return", "PickupProgress", new { area = "" }, null)
+</p>

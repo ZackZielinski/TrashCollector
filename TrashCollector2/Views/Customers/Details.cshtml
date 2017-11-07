@@ -19,7 +19,9 @@
 </h3>
 
 <hr />
+@Html.ActionLink("View Assigned Pickups", "PickupProgress")
 
+<hr />
 <table class="table">
     <tr>
         <th>
@@ -33,6 +35,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VacationStatus)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PickupDate.WeeklyPayment)
@@ -59,15 +64,25 @@
                 @Html.DisplayFor(modelItem => item.State)
             </td>
             <td>
+                @Html.VacationStatus(item.VacationStatus)
+            </td>
+            @if (item.VacationStatus == true)
+            {
+            <td>
+            </td>
+            <td>
+            </td>
+            }
+            else
+            {
+            <td>
                 $@Html.DisplayPayment(item.PickupDate.WeeklyPayment)
             </td>
             <td>
                 $@Html.DisplayPayment(item.MonthlyPayment)
             </td>
+            }
         </tr>
     }
 
 </table>
-<p>
-    @Html.ActionLink("View Assigned Pickups", "PickupProgress")
-</p>
