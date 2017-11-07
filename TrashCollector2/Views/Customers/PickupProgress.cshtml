@@ -57,13 +57,14 @@
             @Html.VacationStatus(item.VacationStatus)
         </td>
         <td>
-            @Html.ActionLink("Edit Pickup Order", "EditPickup", "Customers", new { id = item.Id }, null) |
-            @Html.ActionLink("Change Vacation Dates", "ChangeVacationDates", "Customers", new { id = item.Id }, null) |
-            @Html.ActionLink("Delete", "DropPickup", "Customers", new { id=item.Id }, null) |
             @if (item.VacationStatus == true)
             {
                 @Html.ActionLink("View Vacation Time", "VacationDates", "Customers", new { id = item.Id }, null)
+                @: |
             }
+            @Html.ActionLink("Edit Pickup Order", "EditPickup", "Customers", new { id = item.Id }, null) |
+            @Html.ActionLink("Change Vacation Dates", "ChangeVacationDates", "Customers", new { id = item.Id }, null) |
+            @Html.ActionLink("Delete", "DropPickup", "Customers", new { id=item.Id }, null)
         </td>
     </tr>
 }

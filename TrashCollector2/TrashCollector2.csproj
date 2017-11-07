@@ -378,6 +378,7 @@
     <Content Include="Views\Employees\MapRoute.cshtml" />
     <Content Include="Views\Customers\CustomerOrders.cshtml" />
     <Content Include="Views\Customers\VacationDates.cshtml" />
+    <Content Include="Views\Employees\VacationDates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

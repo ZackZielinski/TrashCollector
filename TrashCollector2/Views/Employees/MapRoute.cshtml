@@ -155,7 +155,7 @@
                                 var cell = row.insertCell(2);
                                 cell.innerText = distance + " mi";
                                 var cell = row.insertCell(3);
-                                cell.innerText = minute.toFixed(2) + " min";
+                                cell.innerText = Math.round(minute.toFixed(2)) + " min(s)";
                             }
                         });
                         directionsDisplay.setDirections(response);

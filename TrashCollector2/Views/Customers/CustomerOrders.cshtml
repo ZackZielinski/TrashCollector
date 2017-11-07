@@ -30,13 +30,6 @@
         <th>
             @Html.DisplayNameFor(model => model.VacationStatus)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VacationStart)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VacationEnd)
-        </th>
-
         <th></th>
     </tr>
 
@@ -58,24 +51,15 @@
             <td>
                 @Html.VacationStatus(item.VacationStatus)
             </td>
-
-            @if (item.VacationStatus == false)
-            {
-                <td></td>
-                <td></td>
-                <td>
-                    @Html.ActionLink("View Order", "PickupOrder", new { id = item.Id })
-                </td>
-            }
-            else
-            {
-                <td>
-                    @Html.DisplayDate(item.VacationStart)
-                </td>
-                <td>
-                    @Html.DisplayDate(item.VacationEnd)
-                </td>
-            }
+            <td>
+                @Html.ActionLink("View Order", "PickupOrder", "Employees", new { id = item.Id }, null)
+                @if(item.VacationStatus == true)
+                {
+                  @: |
+                  @Html.ActionLink("View Vacation Dates", "VacationDates", "Employees", new { id = item.Id }, null)
+                }
+                
+            </td>
         </tr>
     }
 

@@ -146,6 +146,20 @@ namespace TrashCollector2.Controllers
             return View(PickupsInZipCode);
         }
 
+
+        public ActionResult VacationDates(int? id)
+        {
+            var SelectedPickup = db.Pickups.Find(id);
+
+            if(SelectedPickup == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(SelectedPickup);
+        }
+
+
         protected List<Pickup> GetDailyPickupList()
         {
             string Today = DateTime.Now.DayOfWeek.ToString();
