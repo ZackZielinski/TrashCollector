@@ -52,11 +52,10 @@
                 @Html.VacationStatus(item.VacationStatus)
             </td>
             <td>
-                @Html.ActionLink("View Order", "PickupOrder", "Employees", new { id = item.Id }, null)
                 @if(item.VacationStatus == true)
                 {
-                  @: |
-                  @Html.ActionLink("View Vacation Dates", "VacationDates", "Employees", new { id = item.Id }, null)
+                    @: |
+                    @Html.ActionLink("View Vacation Dates", "VacationDates", "Employees", new { id = item.Id }, null)
                 }
                 
             </td>

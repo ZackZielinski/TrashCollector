@@ -43,7 +43,8 @@
             @Html.VacationStatus(item.VacationStatus)
         </td>
         <td>
-            @Html.ActionLink("View Order", "PickupOrder", new { id = item.Id })
+            @Html.ActionLink("View Order", "PickupOrder", new { id = item.Id }) |
+            @Html.ActionLink("View Map","MapView", new { id = item.Id })
             @if (item.VacationStatus == true)
             {
             @:|
